@@ -1,13 +1,8 @@
-package com.caiodev.diario.diariolivreoficial;
-
-import android.os.Handler;
+package com.caiodev.diario.diariolivreoficial.SplashScreen;
 
 import com.caiodev.diario.diariolivreoficial.Service.IRetrofitService;
 import com.caiodev.diario.diariolivreoficial.Service.Request.ResultRequest;
 import com.caiodev.diario.diariolivreoficial.Service.ServiceFactory;
-
-import java.util.Arrays;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -17,7 +12,7 @@ import retrofit2.Response;
  * Created by CaioSChristino on 07/10/16.
  */
 
-public class FindItemsInteractorImpl implements FindItemsInteractor {
+public class SplashItemsInteractorImpl implements SplashtemsInteractor {
 
     @Override
     public void findItems(final OnFinishedListener listener) {

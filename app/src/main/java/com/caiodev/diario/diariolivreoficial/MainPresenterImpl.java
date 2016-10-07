@@ -7,7 +7,6 @@ import java.util.List;
  */
 
 public class MainPresenterImpl implements MainPresenter, FindItemsInteractor.OnFinishedListener {
-
     private MainView mainView;
     private FindItemsInteractor findItemsInteractor;
 
@@ -21,7 +20,6 @@ public class MainPresenterImpl implements MainPresenter, FindItemsInteractor.OnF
         if (mainView != null) {
             mainView.showProgress();
         }
-
         findItemsInteractor.findItems(this);
     }
 
@@ -41,6 +39,14 @@ public class MainPresenterImpl implements MainPresenter, FindItemsInteractor.OnF
     public void onFinished(List<String> items) {
         if (mainView != null) {
             mainView.setItems(items);
+            mainView.hideProgress();
+        }
+    }
+
+    @Override
+    public void onError(String message) {
+        if (mainView != null) {
+            mainView.showMessage(message);
             mainView.hideProgress();
         }
     }

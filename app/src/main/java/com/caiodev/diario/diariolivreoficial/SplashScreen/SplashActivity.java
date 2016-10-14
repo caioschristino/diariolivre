@@ -1,10 +1,13 @@
 package com.caiodev.diario.diariolivreoficial.SplashScreen;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ProgressBar;
+
+import com.caiodev.diario.diariolivreoficial.MainActivity;
 import com.caiodev.diario.diariolivreoficial.R;
 
 /**
@@ -43,7 +46,9 @@ public class SplashActivity extends AppCompatActivity implements SplashView {
 
     @Override
     public void hideProgress() {
-//        progressBar.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
     }
 
     @Override

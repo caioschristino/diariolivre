@@ -30,7 +30,7 @@ public class SplashItemsInteractorImpl implements SplashtemsInteractor {
 
             @Override
             public void onFailure(Call<ResultRequest> call, Throwable t) {
-                listener.onError(t.getMessage());
+                listener.onError("Impossível se conectar ao servidor no momento");
             }
         });
     }

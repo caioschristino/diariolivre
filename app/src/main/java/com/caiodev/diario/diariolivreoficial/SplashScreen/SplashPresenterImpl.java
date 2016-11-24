@@ -1,5 +1,8 @@
 package com.caiodev.diario.diariolivreoficial.SplashScreen;
 
+import com.caiodev.diario.diariolivreoficial.Model.Response;
+import com.caiodev.diario.diariolivreoficial.SessionManager;
+
 import java.util.List;
 
 /**
@@ -36,10 +39,9 @@ public class SplashPresenterImpl implements SplashPresenter, SplashtemsInteracto
     }
 
     @Override
-    public void onFinished(List<String> items) {
+    public void onFinished(Response response) {
         if (splashView != null) {
-            //splashView.setItems(items);
-            splashView.hideProgress();
+            splashView.hideProgress(response);
         }
     }
 
@@ -47,7 +49,7 @@ public class SplashPresenterImpl implements SplashPresenter, SplashtemsInteracto
     public void onError(String message) {
         if (splashView != null) {
             splashView.showMessage(message);
-            splashView.hideProgress();
+            splashView.hideProgress(null);
         }
     }
 }

@@ -1,18 +1,31 @@
 package com.caiodev.diario.diariolivreoficial.Model;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 import java.util.Date;
 
 /**
  * Created by CaioSChristino on 07/10/16.
  */
 
+@DatabaseTable
 public class Doc {
+    public static final String TITLE = "";
+
+    @DatabaseField(id = true, generatedId = false)
     private String id;
+    @DatabaseField
     private Date data;
+    @DatabaseField
     private String retranca;
+    @DatabaseField
     private String tipo_conteudo;
+    @DatabaseField
     private String secretaria;
+    @DatabaseField
     private String orgao;
+    @DatabaseField
     private String texto;
 
     public String getId() {

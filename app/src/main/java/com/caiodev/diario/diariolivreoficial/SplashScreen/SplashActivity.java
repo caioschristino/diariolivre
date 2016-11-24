@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.caiodev.diario.diariolivreoficial.MainActivity;
+import com.caiodev.diario.diariolivreoficial.Model.Response;
 import com.caiodev.diario.diariolivreoficial.R;
+import com.caiodev.diario.diariolivreoficial.SessionManager;
 
 /**
  * Created by CaioSChristino on 07/10/16.
@@ -45,10 +47,14 @@ public class SplashActivity extends AppCompatActivity implements SplashView {
     }
 
     @Override
-    public void hideProgress() {
-        progressBar.setVisibility(View.INVISIBLE);
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
+    public void hideProgress(Response response) {
+        if (response != null) {
+            ((SessionManager) getApplicationContext()).setSessionResponse(response);
+
+            progressBar.setVisibility(View.INVISIBLE);
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+        }
     }
 
     @Override

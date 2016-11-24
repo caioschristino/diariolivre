@@ -23,8 +23,7 @@ public class SplashItemsInteractorImpl implements SplashtemsInteractor {
             @Override
             public void onResponse(Call<ResultRequest> call, Response<ResultRequest> response) {
                 if (response.isSuccessful()) {
-                    ResultRequest result = response.body();
-                    listener.onFinished(null);
+                    listener.onFinished(response.body().getResponse());
                 }
             }
 

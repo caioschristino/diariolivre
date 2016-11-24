@@ -10,34 +10,35 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.BaseAdapter;
+import android.widget.HeaderViewListAdapter;
+import android.widget.ListView;
 
 import com.caiodev.diario.diariolivreoficial.Adapter.TabPageAdapter;
+import com.caiodev.diario.diariolivreoficial.Model.Facet;
+import com.caiodev.diario.diariolivreoficial.Model.Response;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, MainView {
-
-    private MainPresenter presenter;
-    DrawerLayout mDrawerLayout;
-    NavigationView mNavigationView;
-    FragmentManager mFragmentManager;
-    FragmentTransaction mFragmentTransaction;
-
+        implements NavigationView.OnNavigationItemSelectedListener {
+    private DrawerLayout mDrawerLayout;
+    private NavigationView mNavigationView;
+    private FragmentManager mFragmentManager;
+    private FragmentTransaction mFragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        presenter = new MainPresenterImpl(this);
-
         /**
          *Setup the DrawerLayout and NavigationView
          */
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mNavigationView = (NavigationView) findViewById(R.id.drawer_layout);
         mNavigationView.setNavigationItemSelectedListener(this);
-
+        addItemsRunTime(mNavigationView);
         /**
          * Lets inflate the very first fragment
          * Here , we are inflating the TabPageAdapter as the first Fragment
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
+        // automatically handle clicks on the HomeFragment/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
@@ -96,57 +97,30 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerLayout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        presenter.onResume();
-    }
+    private void addItemsRunTime(NavigationView navigationView) {
+        //adding items run time
+        final Menu menu = navigationView.getMenu();
+        Response response = ((SessionManager) getApplicationContext()).getSessionResponse();
+        if (response != null) {
+            for (Facet facet : response.getFacets()) {
+                menu.add(facet.getLabel());
+            }
+        }
 
-    @Override
-    protected void onDestroy() {
-        presenter.onDestroy();
-        super.onDestroy();
-    }
-
-    @Override
-    public void showProgress() {
-//        progressBar.setVisibility(View.VISIBLE);
-//        listView.setVisibility(View.INVISIBLE);
-    }
-
-    @Override
-    public void hideProgress() {
-//        progressBar.setVisibility(View.INVISIBLE);
-//        listView.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void setItems(List<String> items) {
-//        listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items));
-    }
-
-    @Override
-    public void showMessage(String message) {
-//        Snackbar.make(listView, message, Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show();
+        // refreshing navigation drawer adapter
+        for (int i = 0, count = mNavigationView.getChildCount(); i < count; i++) {
+            final View child = mNavigationView.getChildAt(i);
+            if (child != null && child instanceof ListView) {
+                final ListView menuView = (ListView) child;
+                final HeaderViewListAdapter adapter = (HeaderViewListAdapter) menuView.getAdapter();
+                final BaseAdapter wrapped = (BaseAdapter) adapter.getWrappedAdapter();
+                wrapped.notifyDataSetChanged();
+            }
+        }
     }
 }

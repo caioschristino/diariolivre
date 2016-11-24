@@ -1,5 +1,8 @@
 package com.caiodev.diario.diariolivreoficial.SplashScreen;
 
+import com.caiodev.diario.diariolivreoficial.Model.Response;
+import com.caiodev.diario.diariolivreoficial.SessionManager;
+
 import java.util.List;
 
 /**
@@ -8,7 +11,7 @@ import java.util.List;
 
 public interface SplashtemsInteractor {
     interface OnFinishedListener {
-        void onFinished(List<String> items);
+        void onFinished(Response response);
 
         void onError(String message);
     }

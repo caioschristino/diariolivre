@@ -1,18 +1,20 @@
 package com.caiodev.diario.diariolivreoficial.Adapter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.caiodev.diario.diariolivreoficial.Fragment.Favorite;
-import com.caiodev.diario.diariolivreoficial.Fragment.Home;
+import com.caiodev.diario.diariolivreoficial.Fragment.Fragment.FavoriteFragment;
+import com.caiodev.diario.diariolivreoficial.Fragment.Home.HomeFragment;
 import com.caiodev.diario.diariolivreoficial.R;
 
 /**
@@ -20,44 +22,54 @@ import com.caiodev.diario.diariolivreoficial.R;
  */
 
 public class TabPageAdapter extends Fragment {
-    public static TabLayout tabLayout;
-    public static ViewPager viewPager;
-    public static int int_items = 2;
+    private static TabLayout tabLayout;
+    private static ViewPager viewPager;
+    private static int int_items = 2;
+    private static MyAdapter adapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        /**
-         *Inflate tab_layout and setup Views.
-         */
-        View x = inflater.inflate(R.layout.tab_layout, null);
+        View x = inflater.inflate(R.layout.tabs_layout, null);
         tabLayout = (TabLayout) x.findViewById(R.id.tabs);
         viewPager = (ViewPager) x.findViewById(R.id.viewpager);
+        adapter = new MyAdapter(getChildFragmentManager());
+        if (adapter != null) {
+            viewPager.setAdapter(adapter);
+            tabLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    tabLayout.setupWithViewPager(viewPager);
+                }
+            });
+        }
 
-        /**
-         *Set an Apater for the View Pager
-         */
-        viewPager.setAdapter(new MyAdapter(getChildFragmentManager()));
-
-        /**
-         * Now , this is a workaround ,
-         * The setupWithViewPager dose't works without the runnable .
-         * Maybe a Support Library Bug .
-         */
-
-        tabLayout.post(new Runnable() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void run() {
-                tabLayout.setupWithViewPager(viewPager);
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 1) {
+                    viewPager.setCurrentItem(tab.getPosition());
+
+                    LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getContext());
+                    Intent i = new Intent("TAG_REFRESH");
+                    lbm.sendBroadcast(i);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
-
         return x;
-
     }
 
     class MyAdapter extends FragmentPagerAdapter {
-
         public MyAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -69,9 +81,9 @@ public class TabPageAdapter extends Fragment {
         public Fragment getItem(int position) {
             switch (position) {
                 case 1:
-                    return new Favorite();
+                    return new FavoriteFragment();
                 default:
-                    return new Home();
+                    return new HomeFragment();
             }
         }
 
@@ -87,9 +99,9 @@ public class TabPageAdapter extends Fragment {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 1:
-                    return "Favorite";
+                    return "Favoritos";
                 default:
-                    return "Home";
+                    return "Documentos";
             }
         }
     }

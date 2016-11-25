@@ -13,4 +13,6 @@ public interface IAdapterOnClickListener {
     void onLikeItem(Doc doc);
 
     void onClickItem(Doc doc);
+
+    boolean isFavorite(String id);
 }

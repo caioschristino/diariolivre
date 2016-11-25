@@ -17,7 +17,7 @@ import java.util.List;
  * Created by CaioSChristino on 23/11/16.
  */
 
-public class HomeRecycleAdapter extends RecyclerView.Adapter<HomeRecycleAdapter.ViewHolder> {
+public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHolder> {
     private List<Doc> values = new ArrayList<>();
     private IAdapterOnClickListener delegate;
 
@@ -56,7 +56,6 @@ public class HomeRecycleAdapter extends RecyclerView.Adapter<HomeRecycleAdapter.
                 if (null != delegate) {
                     delegate.onShareItem(doc);
                 }
-
             }
         });
 
@@ -68,6 +67,10 @@ public class HomeRecycleAdapter extends RecyclerView.Adapter<HomeRecycleAdapter.
                 }
             }
         });
+
+        if (delegate.isFavorite(doc.getId())) {
+            holder.iVLike.setImageResource(R.mipmap.like_in);
+        }
     }
 
     @Override
@@ -75,8 +78,8 @@ public class HomeRecycleAdapter extends RecyclerView.Adapter<HomeRecycleAdapter.
         return values.size();
     }
 
-    public void notifySaveClick(Doc doc) {
-
+    public void notifySaveClick() {
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

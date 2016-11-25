@@ -13,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.caiodev.diario.diariolivreoficial.Fragment.Fragment.FavoriteFragment;
+import com.caiodev.diario.diariolivreoficial.Fragment.Favorite.FavoriteFragment;
 import com.caiodev.diario.diariolivreoficial.Fragment.Home.HomeFragment;
 import com.caiodev.diario.diariolivreoficial.R;
 

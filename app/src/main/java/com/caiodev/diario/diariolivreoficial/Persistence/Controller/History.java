@@ -21,14 +21,24 @@ public class History {
     }
 
     public void add(Doc doc) {
+        doc.setFavorito(true);
         historyLike.createOrUpdate(Arrays.asList(doc));
+    }
+
+    public void remove(Doc doc) {
+        historyLike.delete(Arrays.asList(doc));
     }
 
     public List<Doc> getAll() {
         return historyLike.getAll();
     }
 
-    public Doc findByName(String name) {
-        return historyLike.get(Doc.TITLE, name).get(0);
+    public Doc findById(String id) {
+        return historyLike.get(Doc.ID, id).get(0);
+    }
+
+    public boolean exist(String id) {
+        List<Doc> docs = historyLike.get(Doc.ID, id);
+        return (docs == null || docs.size() == 0) ? false : true;
     }
 }

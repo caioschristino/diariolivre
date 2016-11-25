@@ -11,7 +11,7 @@ import java.util.Date;
 
 @DatabaseTable
 public class Doc {
-    public static final String TITLE = "";
+    public static final String ID = "id";
 
     @DatabaseField(id = true, generatedId = false)
     private String id;
@@ -27,6 +27,8 @@ public class Doc {
     private String orgao;
     @DatabaseField
     private String texto;
+    @DatabaseField
+    private boolean favorito;
 
     public String getId() {
         return id;
@@ -54,5 +56,13 @@ public class Doc {
 
     public String getTexto() {
         return texto;
+    }
+
+    public boolean isFavorito() {
+        return favorito;
+    }
+
+    public void setFavorito(boolean favorito) {
+        this.favorito = favorito;
     }
 }
